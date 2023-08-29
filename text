@@ -1,0 +1,24 @@
+Sample Questions
+
+    question:"which language runs in a web browser?",
+    a:"Java",
+    b:"Python",
+    c:"C",
+    d:"JavaScript",
+    correct: "d",
+
+    question:"what does CSS stand for?",
+    a:"Central Style Sheets",
+    b:"Cascading Style Sheets",
+    c:"Cascading Simple Sheets",
+    d:"Cascading Same Sheets",
+    correct: "b",
+
+    question:"what does HTML stand for?",
+    a:"Hypertext Markup Language",
+    b:"Hypertext Markdown Language",
+    c:"Hypertext Machine Language",
+    d:"Hypertext Terminal Language",
+    correct: "a",
+
+    
