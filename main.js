@@ -1,91 +1,83 @@
-const quizDB = [
+const quizData = [
     {
-        question: "Q1: Which language runs in a web browser?",
+        question: "Which language runs in a web browser?",
         a: "Java",
-        b: "Python",
-        c: "C",
-        d: "JavaScript",
-        ans: "ans4",
+        b: "C",
+        c: "Python",
+        d: "javascript",
+        correct: "d",
     },
     {
-        question: "Q2: What does CSS stand for?",
+        question: "What does CSS stand for?",
         a: "Central Style Sheets",
         b: "Cascading Style Sheets",
         c: "Cascading Simple Sheets",
-        d: "Cascading Same Sheets",
-        ans: "ans2",
+        d: "Cars SUVs Sailboats",
+        correct: "b",
     },
     {
-        question: "Q3:What does HTML stand for?",
+        question: "What does HTML stand for?",
         a: "Hypertext Markup Language",
         b: "Hypertext Markdown Language",
-        c: "Hypertext Machine Language",
-        d: "Hypertext Terminal Language",
-        ans: "ans1",
+        c: "Hyperloop Machine Language",
+        d: "Helicopters Terminals Motorboats Lamborginis",
+        correct: "a",
     },
     {
-        question: "Q4: What year was JavaScript launched?",
+        question: "What year was JavaScript launched?",
         a: "1996",
         b: "1995",
         c: "1994",
         d: "none of the above",
-        ans: "ans2",
+        correct: "b",
     },
 ];
-
-
-const answers = document.querySelectorAll('.answer')//as multiple classes are there
-const question = document.querySelector('.question');
-const option1=document.querySelector('#option1');
-const option2=document.querySelector('#option3');
-const option3=document.querySelector('#option2');
-const option4=document.querySelector('#option4');
-const submit=document.querySelector('#submit');
-const showScore=document.querySelector('#showScore');
-
-let questionCount=0;
-let score=0;
-
- const loadQuestion = () => {
-    const questionList=quizDB[questionCount];
-    question.innerText=questionList.question;
-
-    option1.innerText=questionList.a;
-    option2.innerText=questionList.b;
-    option3.innerText=questionList.c;
-    option4.innerText=questionList.d;
-    
+const quiz= document.getElementById('quiz')
+const answerEls = document.querySelectorAll('.answer')
+const questionEl = document.getElementById('question')
+const a_text = document.getElementById('a_text')
+const b_text = document.getElementById('b_text')
+const c_text = document.getElementById('c_text')
+const d_text = document.getElementById('d_text')
+const submitBtn = document.getElementById('submit')
+let currentQuiz = 0
+let score = 0
+loadQuiz()
+function loadQuiz() {
+    deselectAnswers()
+    const currentQuizData = quizData[currentQuiz]
+    questionEl.innerText = currentQuizData.question
+    a_text.innerText = currentQuizData.a
+    b_text.innerText = currentQuizData.b
+    c_text.innerText = currentQuizData.c
+    d_text.innerText = currentQuizData.d
 }
-loadQuestion();
-const getCheckAnswer=()=>{
-    let answer;
-    answers.forEach((curAnsElem)=>{
-        if(curAnsElem.checked){
-            answer=curAnsElem.id;
+function deselectAnswers() {
+    answerEls.forEach(answerEl => answerEl.checked = false)
+}
+function getSelected() {
+    let answer
+    answerEls.forEach(answerEl => {
+        if(answerEl.checked) {
+            answer = answerEl.id
         }
-    });
-    return answer;
-};
-
-submit.addEventListener('click', ()=>{
-    const checkedAnswer=getCheckAnswer();
-    console.log(checkedAnswer);
-
-    if(checkedAnswer===quizDB[questionCount].ans){
-        score++;
-    };
-    questionCount++;
-    if(questionCount<quizDB.length){
-        loadQuestion();
+    })
+    return answer
+}
+submitBtn.addEventListener('click', () => {
+    const answer = getSelected()
+    if(answer) {
+       if(answer === quizData[currentQuiz].correct) {
+           score++
+       }
+       currentQuiz++
+       if(currentQuiz < quizData.length) {
+           loadQuiz()
+       } else {
+           quiz.innerHTML = `
+           <h2>You answered ${score}/${quizData.length} questions correctly</h2>
+           <button onclick="location.reload()">Reload</button>
+           `
+       }
     }
-    else{
-        showScore.innerHTML=`
-        <h3> You Scored ${score}/${quizDB.length} </h3>
-        <button class="btn" onclick="Location.reload()"></button>
-        `;
-
-    }
-
-});
-
-
+})
